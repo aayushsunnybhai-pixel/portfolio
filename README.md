@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -34,31 +34,71 @@
             overflow-x: hidden;
         }
 
-        /* Custom Cursor */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--black);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: all 0.15s ease;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
+        /* Custom Cursor - Desktop Only */
+        @media (min-width: 1024px) {
+            .cursor {
+                width: 20px;
+                height: 20px;
+                border: 2px solid var(--black);
+                border-radius: 50%;
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                transition: all 0.15s ease;
+                transform: translate(-50%, -50%);
+                mix-blend-mode: difference;
+            }
+
+            .cursor-follower {
+                width: 40px;
+                height: 40px;
+                border: 1px solid var(--gray);
+                border-radius: 50%;
+                position: fixed;
+                pointer-events: none;
+                z-index: 9998;
+                transition: all 0.3s ease;
+                transform: translate(-50%, -50%);
+                mix-blend-mode: difference;
+            }
         }
 
-        .cursor-follower {
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--gray);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
+        @media (max-width: 1023px) {
+            .cursor, .cursor-follower {
+                display: none;
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background: var(--white);
             transition: all 0.3s ease;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
+        }
+
+        nav.scrolled .menu-toggle span {
+            background: var(--black);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
         }
 
         /* Navigation */
@@ -67,7 +107,7 @@
             top: 0;
             left: 0;
             right: 0;
-            padding: 3rem 5%;
+            padding: 2rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -77,7 +117,7 @@
         }
 
         nav.scrolled {
-            padding: 1.5rem 5%;
+            padding: 1rem 5%;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             mix-blend-mode: normal;
@@ -90,6 +130,7 @@
             letter-spacing: -0.03em;
             color: var(--white);
             transition: color 0.3s ease;
+            cursor: pointer;
         }
 
         nav.scrolled .logo {
@@ -132,9 +173,48 @@
             width: 100%;
         }
 
-        /* Hero Section */
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 70%;
+                max-width: 300px;
+                background: var(--black);
+                flex-direction: column;
+                padding: 6rem 2rem;
+                gap: 2rem;
+                transition: right 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+                box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                color: var(--white) !important;
+                font-size: 1.2rem;
+            }
+
+            nav {
+                padding: 1.5rem 5%;
+            }
+
+            nav.scrolled {
+                padding: 1rem 5%;
+            }
+        }
+
+        /* Hero Section - Mobile Optimized */
         .hero {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -142,6 +222,7 @@
             position: relative;
             overflow: hidden;
             background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            padding: 8rem 5% 4rem;
         }
 
         .hero::before {
@@ -165,11 +246,12 @@
             position: relative;
             z-index: 2;
             text-align: center;
+            max-width: 1200px;
         }
 
         .hero-image-wrapper {
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             overflow: hidden;
             margin: 0 auto 3rem;
@@ -178,6 +260,13 @@
             transform: scale(0.8);
             animation: fadeInScale 1s ease 0.2s forwards;
             position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .hero-image-wrapper {
+                width: 150px;
+                height: 150px;
+            }
         }
 
         .hero-image-wrapper::before {
@@ -217,7 +306,7 @@
         }
 
         .hero-label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--gray);
@@ -227,7 +316,7 @@
         }
 
         .hero-title {
-            font-size: clamp(4rem, 15vw, 12rem);
+            font-size: clamp(3rem, 12vw, 12rem);
             font-weight: 700;
             line-height: 0.85;
             letter-spacing: -0.04em;
@@ -244,22 +333,23 @@
         }
 
         .hero-subtitle {
-            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-size: clamp(1.2rem, 3.5vw, 3rem);
             font-weight: 300;
             color: var(--gray);
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             opacity: 0;
             animation: fadeInUp 1s ease 0.8s forwards;
         }
 
         .hero-description {
             max-width: 700px;
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2vw, 1.1rem);
             line-height: 1.8;
             color: var(--gray);
             margin: 0 auto;
             opacity: 0;
             animation: fadeInUp 1s ease 1s forwards;
+            padding: 0 1rem;
         }
 
         .scroll-indicator {
@@ -292,9 +382,70 @@
             50% { transform: translateX(-50%) translateY(10px); }
         }
 
-        /* Marquee Text */
+        /* Interactive Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(255,215,0,0.4);
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 6px 30px rgba(255,215,0,0.6);
+        }
+
+        .fab-menu {
+            position: fixed;
+            bottom: 5rem;
+            right: 2rem;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 998;
+        }
+
+        .fab-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .fab-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .fab-menu-item:hover {
+            background: var(--light-gray);
+            transform: translateX(5px);
+        }
+
+        /* Marquee - Mobile Optimized */
         .marquee {
-            padding: 4rem 0;
+            padding: 3rem 0;
             background: var(--black);
             color: var(--white);
             overflow: hidden;
@@ -312,7 +463,7 @@
         }
 
         .marquee-item {
-            font-size: clamp(2rem, 4vw, 4rem);
+            font-size: clamp(1.5rem, 4vw, 4rem);
             font-weight: 700;
             padding: 0 2rem;
             display: flex;
@@ -330,18 +481,18 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Section Styling */
+        /* Section Styling - Mobile Optimized */
         .section {
-            padding: 10rem 5%;
+            padding: clamp(4rem, 10vw, 10rem) 5%;
             position: relative;
         }
 
         .section-header {
-            margin-bottom: 8rem;
+            margin-bottom: clamp(4rem, 8vw, 8rem);
         }
 
         .section-number {
-            font-size: 1rem;
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
             letter-spacing: 0.2em;
             color: var(--gray);
             margin-bottom: 1rem;
@@ -349,7 +500,7 @@
         }
 
         .section-title {
-            font-size: clamp(3rem, 10vw, 8rem);
+            font-size: clamp(2.5rem, 8vw, 8rem);
             font-weight: 700;
             line-height: 0.9;
             margin-bottom: 2rem;
@@ -357,26 +508,41 @@
         }
 
         .section-description {
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 2vw, 1.3rem);
             color: var(--gray);
             max-width: 700px;
             line-height: 1.7;
         }
 
-        /* Projects Grid with Stock Animations */
+        /* Projects Grid - Fully Responsive */
         .projects-grid {
             display: grid;
-            gap: 8rem 4rem;
+            gap: clamp(4rem, 6vw, 8rem) clamp(2rem, 4vw, 4rem);
         }
 
         .project-card {
             display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 4rem;
-            align-items: center;
+            grid-template-columns: 1fr;
+            gap: 2rem;
             opacity: 0;
             transform: translateY(100px);
             transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        @media (min-width: 768px) {
+            .project-card {
+                grid-template-columns: 1fr 1.2fr;
+                gap: 4rem;
+                align-items: center;
+            }
+
+            .project-card:nth-child(even) {
+                grid-template-columns: 1.2fr 1fr;
+            }
+
+            .project-card:nth-child(even) .project-content {
+                order: -1;
+            }
         }
 
         .project-card.visible {
@@ -384,15 +550,7 @@
             transform: translateY(0);
         }
 
-        .project-card:nth-child(even) {
-            grid-template-columns: 1.2fr 1fr;
-        }
-
-        .project-card:nth-child(even) .project-content {
-            order: -1;
-        }
-
-        /* Animated Project Visuals with Lottie-style animations */
+        /* Animated Project Visuals - Touch Optimized */
         .project-visual {
             position: relative;
             aspect-ratio: 4/3;
@@ -401,10 +559,17 @@
             cursor: pointer;
             border-radius: 20px;
             transition: transform 0.3s ease;
+            touch-action: manipulation;
         }
 
-        .project-visual:hover {
-            transform: scale(1.02);
+        .project-visual:active {
+            transform: scale(0.98);
+        }
+
+        @media (min-width: 1024px) {
+            .project-visual:hover {
+                transform: scale(1.02);
+            }
         }
 
         .project-visual.visual-1 {
@@ -425,48 +590,33 @@
 
         .project-number {
             position: absolute;
-            top: 2rem;
-            right: 2rem;
-            font-size: 8rem;
+            top: 1rem;
+            right: 1rem;
+            font-size: clamp(4rem, 10vw, 8rem);
             font-weight: 700;
             color: rgba(255,255,255,0.2);
             line-height: 1;
             z-index: 1;
         }
 
-        /* Chart Animation for Project 1 */
+        /* Chart Animation */
         .chart-animation {
             position: absolute;
             bottom: 15%;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 1.5rem;
+            gap: clamp(0.8rem, 2vw, 1.5rem);
             align-items: flex-end;
             height: 60%;
         }
 
         .chart-bar {
-            width: 50px;
+            width: clamp(30px, 5vw, 50px);
             background: rgba(255,255,255,0.9);
             border-radius: 8px 8px 0 0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             animation: barGrow 2s ease-in-out infinite;
-            position: relative;
-        }
-
-        .chart-bar::after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 30px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0;
-            animation: dotAppear 2s ease-in-out infinite;
         }
 
         .chart-bar:nth-child(1) { animation-delay: 0s; height: 40%; }
@@ -480,12 +630,7 @@
             50% { transform: scaleY(1.05); }
         }
 
-        @keyframes dotAppear {
-            0%, 100% { opacity: 0; transform: translateX(-50%) translateY(0); }
-            50% { opacity: 1; transform: translateX(-50%) translateY(-10px); }
-        }
-
-        /* Gear/Process Animation for Project 2 */
+        /* Process/Gear Animation */
         .process-animation {
             position: absolute;
             top: 50%;
@@ -497,7 +642,7 @@
 
         .gear {
             position: absolute;
-            border: 8px solid rgba(255,255,255,0.9);
+            border: clamp(4px, 1vw, 8px) solid rgba(255,255,255,0.9);
             border-radius: 50%;
         }
 
@@ -508,44 +653,44 @@
         }
 
         .gear-1 {
-            width: 150px;
-            height: 150px;
+            width: clamp(100px, 20vw, 150px);
+            height: clamp(100px, 20vw, 150px);
             top: 20%;
             left: 20%;
             animation: rotateGear 4s linear infinite;
         }
 
         .gear-1::before {
-            width: 30px;
+            width: clamp(20px, 4vw, 30px);
             height: 100%;
             left: 50%;
             transform: translateX(-50%);
         }
 
         .gear-1::after {
-            height: 30px;
+            height: clamp(20px, 4vw, 30px);
             width: 100%;
             top: 50%;
             transform: translateY(-50%);
         }
 
         .gear-2 {
-            width: 120px;
-            height: 120px;
+            width: clamp(80px, 16vw, 120px);
+            height: clamp(80px, 16vw, 120px);
             bottom: 20%;
             right: 20%;
             animation: rotateGearReverse 3s linear infinite;
         }
 
         .gear-2::before {
-            width: 25px;
+            width: clamp(16px, 3vw, 25px);
             height: 100%;
             left: 50%;
             transform: translateX(-50%);
         }
 
         .gear-2::after {
-            height: 25px;
+            height: clamp(16px, 3vw, 25px);
             width: 100%;
             top: 50%;
             transform: translateY(-50%);
@@ -561,7 +706,7 @@
             100% { transform: rotate(-360deg); }
         }
 
-        /* Network/Connection Animation for Project 3 */
+        /* Network Animation */
         .network-animation {
             position: absolute;
             top: 50%;
@@ -573,22 +718,12 @@
 
         .network-node {
             position: absolute;
-            width: 70px;
-            height: 70px;
+            width: clamp(50px, 8vw, 70px);
+            height: clamp(50px, 8vw, 70px);
             background: rgba(255,255,255,0.9);
             border-radius: 50%;
             box-shadow: 0 0 30px rgba(255,255,255,0.5);
             animation: nodePulse 2s ease-in-out infinite;
-        }
-
-        .network-node::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 2px solid rgba(255,255,255,0.5);
-            border-radius: 50%;
-            animation: nodeRipple 2s ease-out infinite;
         }
 
         .network-node:nth-child(1) { top: 10%; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
@@ -601,12 +736,7 @@
             50% { transform: scale(1.1); opacity: 1; }
         }
 
-        @keyframes nodeRipple {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(2); opacity: 0; }
-        }
-
-        /* Documents Flying Animation for Project 4 */
+        /* Documents Animation */
         .documents-animation {
             position: absolute;
             top: 50%;
@@ -618,8 +748,8 @@
 
         .document {
             position: absolute;
-            width: 80px;
-            height: 100px;
+            width: clamp(60px, 10vw, 80px);
+            height: clamp(75px, 12vw, 100px);
             background: rgba(255,255,255,0.9);
             border-radius: 8px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
@@ -632,18 +762,7 @@
             top: 15px;
             left: 15px;
             right: 15px;
-            height: 4px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 2px;
-        }
-
-        .document::after {
-            content: '';
-            position: absolute;
-            top: 30px;
-            left: 15px;
-            right: 25px;
-            height: 4px;
+            height: 3px;
             background: rgba(0,0,0,0.2);
             border-radius: 2px;
         }
@@ -660,7 +779,7 @@
         }
 
         .project-content {
-            padding: 2rem 0;
+            padding: 1rem 0;
         }
 
         .project-tag {
@@ -668,37 +787,33 @@
             padding: 0.5rem 1.5rem;
             background: var(--black);
             color: var(--white);
-            font-size: 0.8rem;
+            font-size: clamp(0.75rem, 1.5vw, 0.8rem);
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             transition: all 0.3s ease;
         }
 
-        .project-card:hover .project-tag {
-            transform: translateX(10px);
-        }
-
         .project-title {
-            font-size: clamp(2rem, 3vw, 3rem);
+            font-size: clamp(1.8rem, 4vw, 3rem);
             font-weight: 700;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             letter-spacing: -0.02em;
             line-height: 1.1;
         }
 
         .project-description {
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2vw, 1.1rem);
             color: var(--gray);
             line-height: 1.7;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .project-metrics {
-            display: flex;
-            gap: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 2rem;
             margin-top: 2rem;
-            flex-wrap: wrap;
         }
 
         .metric {
@@ -707,226 +822,141 @@
         }
 
         .metric-value {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 4vw, 2.5rem);
             font-weight: 700;
             line-height: 1;
             margin-bottom: 0.5rem;
         }
 
         .metric-label {
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 1.5vw, 0.9rem);
             color: var(--gray);
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
-        /* Interactive Timeline Section with Visible World Map */
+        /* Comprehensive Timeline Section */
         .timeline-section {
             background: var(--black);
             color: var(--white);
-            padding: 10rem 5%;
+            padding: clamp(6rem, 10vw, 10rem) 5%;
             position: relative;
             overflow: hidden;
         }
 
-        .world-map-container {
-            position: relative;
-            max-width: 1400px;
-            margin: 0 auto 6rem;
-            height: 700px;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 70%);
-            border-radius: 20px;
-            padding: 3rem;
-        }
-
-        .world-map-svg {
-            width: 100%;
-            height: 100%;
-            opacity: 0.4;
-        }
-
-        .map-continents path {
-            fill: none;
-            stroke: rgba(255,255,255,0.6);
-            stroke-width: 1.5;
-            transition: all 0.3s ease;
-        }
-
-        .map-continents path:hover {
-            stroke: var(--accent);
-            stroke-width: 2;
-        }
-
-        .connection-line {
-            stroke: var(--accent);
-            stroke-width: 2;
-            stroke-dasharray: 10, 5;
-            animation: dashMove 20s linear infinite;
-        }
-
-        @keyframes dashMove {
-            to { stroke-dashoffset: -1000; }
-        }
-
-        .timeline-points {
-            position: absolute;
-            top: 3rem;
-            left: 3rem;
-            right: 3rem;
-            bottom: 3rem;
-        }
-
-        .timeline-point {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            background: var(--accent);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: pointPulse 3s ease-in-out infinite;
-            box-shadow: 0 0 20px var(--accent);
-        }
-
-        .timeline-point::before {
-            content: '';
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border: 3px solid var(--accent);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: ripple 3s ease-out infinite;
-        }
-
-        @keyframes pointPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-        }
-
-        @keyframes ripple {
-            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -50%) scale(3); }
-        }
-
-        .timeline-point:hover {
-            transform: scale(1.5);
-            box-shadow: 0 0 40px var(--accent);
-        }
-
-        .timeline-point.active {
-            background: var(--white);
-            box-shadow: 0 0 40px var(--white);
-        }
-
-        /* Updated positions for better visibility */
-        .point-paris {
-            top: 25%;
-            left: 48%;
-        }
-
-        .point-bangalore {
-            top: 55%;
-            left: 67%;
-        }
-
-        .point-saskatoon {
-            top: 20%;
-            left: 18%;
-        }
-
-        .timeline-tooltip {
-            position: absolute;
-            background: var(--white);
-            color: var(--black);
-            padding: 1.5rem;
-            border-radius: 12px;
-            min-width: 280px;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            transform: translateY(-120%) scale(0.8);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
-            z-index: 10;
-        }
-
-        .timeline-point:hover .timeline-tooltip,
-        .timeline-point.active .timeline-tooltip {
-            opacity: 1;
-            transform: translateY(-120%) scale(1);
-        }
-
-        .tooltip-year {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--accent);
-        }
-
-        .tooltip-location {
-            font-size: 1rem;
-            color: var(--gray);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .tooltip-role {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .tooltip-description {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: var(--gray);
-        }
-
-        .timeline-list {
+        .timeline-container {
             max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 3rem;
         }
 
-        .timeline-item {
-            border-left: 3px solid rgba(255,215,0,0.5);
-            padding-left: 2rem;
+        .timeline-track {
             position: relative;
+            padding: 3rem 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, transparent 0%, var(--accent) 10%, var(--accent) 90%, transparent 100%);
+        }
+
+        @media (min-width: 768px) {
+            .timeline-line {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        .timeline-entry {
+            position: relative;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .timeline-entry.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (min-width: 768px) {
+            .timeline-entry:nth-child(odd) .timeline-content {
+                margin-left: 0;
+                margin-right: calc(50% + 3rem);
+                text-align: right;
+            }
+
+            .timeline-entry:nth-child(even) .timeline-content {
+                margin-left: calc(50% + 3rem);
+                margin-right: 0;
+                text-align: left;
+            }
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 21px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border: 4px solid var(--black);
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 0 20px var(--accent);
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+
+        @media (min-width: 768px) {
+            .timeline-dot {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px var(--accent); }
+            50% { transform: scale(1.2); box-shadow: 0 0 30px var(--accent); }
+        }
+
+        .timeline-content {
+            background: rgba(255,255,255,0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-left: 4rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
             transition: all 0.3s ease;
             cursor: pointer;
         }
 
-        .timeline-item:hover {
-            border-left-color: var(--accent);
-            transform: translateX(10px);
+        .timeline-content:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(255,215,0,0.2);
         }
 
-        .timeline-item::before {
-            content: '';
-            width: 16px;
-            height: 16px;
-            background: var(--accent);
-            border-radius: 50%;
-            position: absolute;
-            left: -10px;
-            top: 0;
-            box-shadow: 0 0 15px var(--accent);
+        @media (max-width: 767px) {
+            .timeline-content {
+                margin-left: 4rem;
+                margin-right: 0;
+            }
         }
 
-        .timeline-year {
-            font-size: 2.5rem;
+        .timeline-date {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
             font-weight: 700;
-            margin-bottom: 0.5rem;
             color: var(--accent);
+            margin-bottom: 0.5rem;
         }
 
         .timeline-location {
-            font-size: 1rem;
+            font-size: clamp(0.85rem, 1.5vw, 0.95rem);
             color: var(--gray);
             margin-bottom: 1rem;
             text-transform: uppercase;
@@ -934,34 +964,430 @@
         }
 
         .timeline-role {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+        }
+
+        .timeline-company {
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            color: var(--gray);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .timeline-description {
+            font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+            line-height: 1.7;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .timeline-highlights {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .timeline-highlight {
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
+            line-height: 1.6;
+        }
+
+        .timeline-highlight::before {
+            content: '▸';
+            color: var(--accent);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Interactive World Map Styling */
+        .world-map-wrapper {
+            margin-bottom: 6rem;
+        }
+
+        .map-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .map-subtitle {
+            text-align: center;
+            color: var(--gray);
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            margin-bottom: 3rem;
+        }
+
+        .world-map-container {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.02);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            min-height: 600px;
+        }
+
+        @media (max-width: 768px) {
+            .world-map-container {
+                padding: 2rem 1rem;
+                min-height: 400px;
+            }
+        }
+
+        .world-map-svg {
+            width: 100%;
+            height: 100%;
+            opacity: 0.6;
+        }
+
+        .map-continents path {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .map-continents path:hover {
+            fill: rgba(255,215,0,0.1);
+            stroke: var(--accent);
+            stroke-width: 2;
+        }
+
+        .connection-line {
+            animation: dashFlow 20s linear infinite;
+        }
+
+        @keyframes dashFlow {
+            to { stroke-dashoffset: -1000; }
+        }
+
+        /* Location Markers */
+        .map-markers {
+            position: absolute;
+            top: 3rem;
+            left: 3rem;
+            right: 3rem;
+            bottom: 3rem;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .map-markers {
+                top: 2rem;
+                left: 1rem;
+                right: 1rem;
+                bottom: 2rem;
+            }
+        }
+
+        .location-marker {
+            position: absolute;
+            pointer-events: all;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .marker-pulse {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.6;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: markerPulse 2s ease-out infinite;
+        }
+
+        @keyframes markerPulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(2);
+                opacity: 0;
+            }
+        }
+
+        .marker-dot {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border: 3px solid var(--black);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px var(--accent);
+            transition: all 0.3s ease;
+            animation: markerBounce 1s ease-in-out infinite;
+        }
+
+        @keyframes markerBounce {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .location-marker:hover .marker-dot {
+            transform: translate(-50%, -50%) scale(1.4);
+            box-shadow: 0 0 30px var(--accent);
+        }
+
+        /* Current location special styling */
+        .marker-current .marker-dot {
+            background: #FF4444;
+            box-shadow: 0 0 20px #FF4444;
+            animation: currentBlink 1.5s ease-in-out infinite;
+        }
+
+        .marker-current .pulse-current {
+            background: #FF4444;
+        }
+
+        @keyframes currentBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .dot-current {
+            background: #FF4444 !important;
+            box-shadow: 0 0 20px #FF4444 !important;
+        }
+
+        /* Location Popup */
+        .location-popup {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px) scale(0.8);
+            background: var(--white);
+            color: var(--black);
+            padding: 1.5rem;
+            border-radius: 15px;
+            min-width: clamp(250px, 30vw, 320px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 100;
+            margin-bottom: 15px;
+        }
+
+        .location-popup::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid var(--white);
+        }
+
+        .location-marker:hover .location-popup,
+        .location-marker.active .location-popup {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-10px) scale(1);
+        }
+
+        @media (max-width: 768px) {
+            .location-popup {
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                right: 20px;
+                transform: translateY(100px);
+                min-width: auto;
+                max-width: calc(100vw - 40px);
+            }
+
+            .location-popup::after {
+                display: none;
+            }
+
+            .location-marker.active .location-popup {
+                transform: translateY(0);
+            }
+        }
+
+        .popup-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .popup-flag {
             font-size: 1.5rem;
+        }
+
+        .popup-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .popup-badge {
+            background: #FF4444;
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .popup-date {
+            font-size: 0.9rem;
+            color: var(--accent);
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
 
-        .timeline-description {
-            font-size: 1.05rem;
-            line-height: 1.7;
+        .popup-role {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--black);
+        }
+
+        .popup-company {
+            font-size: 0.95rem;
+            color: var(--gray);
+            margin-bottom: 0.75rem;
+            font-style: italic;
+        }
+
+        .popup-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .popup-highlights {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .popup-highlights div {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: #666;
+        }
+
+        /* Map Legend */
+        .map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
             color: var(--gray);
         }
 
-        /* Stats Section */
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--black);
+        }
+
+        /* Color coding for different markers */
+        .marker-india-general .marker-dot {
+            background: #FFD700;
+            box-shadow: 0 0 20px #FFD700;
+        }
+
+        .marker-chennai-1 .marker-dot {
+            background: #667eea;
+            box-shadow: 0 0 20px #667eea;
+        }
+
+        .marker-chennai-2 .marker-dot {
+            background: #667eea;
+            box-shadow: 0 0 20px #667eea;
+        }
+
+        .marker-paris .marker-dot {
+            background: #FFD700;
+            box-shadow: 0 0 20px #FFD700;
+        }
+
+        .marker-bangalore .marker-dot {
+            background: #f093fb;
+            box-shadow: 0 0 20px #f093fb;
+        }
+
+        .marker-saskatoon-1 .marker-dot {
+            background: #43e97b;
+            box-shadow: 0 0 20px #43e97b;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .marker-dot {
+                width: 14px;
+                height: 14px;
+            }
+
+            .marker-pulse {
+                width: 35px;
+                height: 35px;
+            }
+
+            .map-legend {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Stats Section - Mobile Optimized */
         .stats-section {
             background: var(--light-gray);
-            padding: 8rem 5%;
+            padding: clamp(4rem, 8vw, 8rem) 5%;
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: clamp(2rem, 4vw, 4rem);
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .stat-item {
             text-align: center;
-            padding: 3rem;
+            padding: clamp(2rem, 4vw, 3rem);
             background: var(--white);
             border-radius: 15px;
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -969,13 +1395,13 @@
             cursor: pointer;
         }
 
-        .stat-item:hover {
+        .stat-item:hover, .stat-item:active {
             transform: translateY(-15px) scale(1.05);
             box-shadow: 0 15px 50px rgba(0,0,0,0.15);
         }
 
         .stat-number {
-            font-size: 5rem;
+            font-size: clamp(3rem, 8vw, 5rem);
             font-weight: 700;
             line-height: 1;
             margin-bottom: 1rem;
@@ -986,16 +1412,16 @@
         }
 
         .stat-label {
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
             color: var(--gray);
             letter-spacing: 0.05em;
         }
 
-        /* Contact Section */
+        /* Contact Section - Mobile Optimized */
         .contact-section {
             background: var(--black);
             color: var(--white);
-            padding: 12rem 5%;
+            padding: clamp(8rem, 12vw, 12rem) 5%;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -1019,7 +1445,7 @@
         }
 
         .contact-title {
-            font-size: clamp(3rem, 8vw, 7rem);
+            font-size: clamp(2.5rem, 8vw, 7rem);
             font-weight: 700;
             line-height: 1.1;
             margin-bottom: 3rem;
@@ -1029,7 +1455,7 @@
         }
 
         .contact-email {
-            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-size: clamp(1.2rem, 3.5vw, 3rem);
             font-weight: 600;
             color: var(--white);
             text-decoration: none;
@@ -1039,9 +1465,10 @@
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             position: relative;
             z-index: 2;
+            word-break: break-all;
         }
 
-        .contact-email:hover {
+        .contact-email:hover, .contact-email:active {
             color: var(--accent);
             border-color: var(--accent);
             transform: translateY(-10px);
@@ -1050,17 +1477,18 @@
 
         .social-links {
             display: flex;
-            gap: 3rem;
+            gap: clamp(1.5rem, 3vw, 3rem);
             justify-content: center;
             margin-top: 4rem;
             position: relative;
             z-index: 2;
+            flex-wrap: wrap;
         }
 
         .social-links a {
             color: var(--gray);
             text-decoration: none;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
             letter-spacing: 0.1em;
             text-transform: uppercase;
             transition: all 0.3s ease;
@@ -1078,23 +1506,33 @@
             transition: width 0.3s ease;
         }
 
-        .social-links a:hover {
-            color: var(--accent);
-        }
-
         .social-links a:hover::before {
             width: 100%;
         }
 
-        /* Footer */
+        .social-links a:hover, .social-links a:active {
+            color: var(--accent);
+        }
+
+        /* Footer - Mobile Optimized */
         footer {
-            padding: 3rem 5%;
+            padding: clamp(2rem, 3vw, 3rem) 5%;
             background: var(--black);
             color: var(--white);
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 1rem;
             align-items: center;
+            text-align: center;
             border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @media (min-width: 768px) {
+            footer {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
         }
 
         footer a {
@@ -1103,70 +1541,9 @@
             transition: all 0.3s ease;
         }
 
-        footer a:hover {
+        footer a:hover, footer a:active {
             color: var(--accent);
             transform: translateY(-3px);
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .project-card,
-            .project-card:nth-child(even) {
-                grid-template-columns: 1fr;
-            }
-
-            .project-card:nth-child(even) .project-content {
-                order: 0;
-            }
-
-            .world-map-container {
-                height: 500px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav {
-                padding: 2rem 5%;
-            }
-
-            .nav-links {
-                gap: 1.5rem;
-            }
-
-            .section {
-                padding: 6rem 5%;
-            }
-
-            .section-header {
-                margin-bottom: 4rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .timeline-list {
-                grid-template-columns: 1fr;
-            }
-
-            .world-map-container {
-                height: 400px;
-            }
-
-            footer {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .marquee-item {
-                font-size: 2rem;
-            }
-
-            .hero-image-wrapper {
-                width: 150px;
-                height: 150px;
-            }
         }
 
         /* Loading Animation */
@@ -1192,7 +1569,7 @@
         }
 
         .loader-text {
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 3vw, 2rem);
             font-weight: 700;
             color: var(--white);
             letter-spacing: 0.1em;
@@ -1200,7 +1577,7 @@
         }
 
         .loader-bar {
-            width: 200px;
+            width: clamp(150px, 40vw, 200px);
             height: 4px;
             background: rgba(255,255,255,0.2);
             border-radius: 2px;
@@ -1222,6 +1599,26 @@
             0% { width: 0; }
             100% { width: 100%; }
         }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent) 0%, #FFA500 100%);
+            z-index: 10001;
+            transition: width 0.1s ease;
+        }
+
+        /* Mobile Touch Feedback */
+        @media (max-width: 1023px) {
+            .project-visual:active,
+            .stat-item:active,
+            .timeline-content:active {
+                transform: scale(0.98);
+            }
+        }
     </style>
 </head>
 <body>
@@ -1233,19 +1630,44 @@
         </div>
     </div>
 
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress"></div>
+
     <!-- Custom Cursor -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
     <!-- Navigation -->
     <nav id="nav">
-        <div class="logo">AT</div>
-        <ul class="nav-links">
-            <li><a href="#work">Work</a></li>
-            <li><a href="#timeline">Timeline</a></li>
-            <li><a href="#contact">Contact</a></li>
+        <div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">AT</div>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#work" onclick="closeMenu()">Work</a></li>
+            <li><a href="#timeline" onclick="closeMenu()">Timeline</a></li>
+            <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
         </ul>
     </nav>
+
+    <!-- Floating Action Button -->
+    <div class="fab" onclick="toggleFabMenu()">⚡</div>
+    <div class="fab-menu" id="fabMenu">
+        <div class="fab-menu-item" onclick="scrollToSection('work')">
+            <span>📊</span> View Work
+        </div>
+        <div class="fab-menu-item" onclick="scrollToSection('timeline')">
+            <span>🗺️</span> See Journey
+        </div>
+        <div class="fab-menu-item" onclick="scrollToSection('contact')">
+            <span>✉️</span> Get in Touch
+        </div>
+        <div class="fab-menu-item" onclick="window.open('https://www.linkedin.com/in/iamaayushtripathi/', '_blank')">
+            <span>💼</span> LinkedIn
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -1263,7 +1685,7 @@
                 Engineering precision meets creative marketing. I build operations that transform chaos into competitive advantage—where systematic thinking creates campaigns that scale.
             </p>
         </div>
-        <div class="scroll-indicator" onclick="document.querySelector('#work').scrollIntoView({behavior: 'smooth'})">Scroll to explore ↓</div>
+        <div class="scroll-indicator" onclick="scrollToSection('work')">Scroll to explore ↓</div>
     </section>
 
     <!-- Marquee -->
@@ -1291,7 +1713,7 @@
         </div>
 
         <div class="projects-grid">
-            <!-- Project 1: Q3 Product Launch -->
+            <!-- Project 1 -->
             <div class="project-card">
                 <div class="project-visual visual-1">
                     <div class="project-number">01</div>
@@ -1307,7 +1729,7 @@
                     <span class="project-tag">Product Launch</span>
                     <h3 class="project-title">Q3 Security Analytics Launch</h3>
                     <p class="project-description">
-                        Orchestrated ADVANIX's largest product launch—a security analytics platform module. Coordinated 8-week campaign across multiple channels, managing cross-functional team of 12 stakeholders. Every asset delivered on time. Record webinar registration. VP recognition in company all-hands.
+                        Orchestrated ADVANIX's largest product launch—a security analytics platform module. Coordinated 8-week campaign across multiple channels, managing cross-functional team of 12 stakeholders.
                     </p>
                     <div class="project-metrics">
                         <div class="metric">
@@ -1326,7 +1748,7 @@
                 </div>
             </div>
 
-            <!-- Project 2: Marketing Operations System -->
+            <!-- Project 2 -->
             <div class="project-card">
                 <div class="project-visual visual-2">
                     <div class="project-number">02</div>
@@ -1339,7 +1761,7 @@
                     <span class="project-tag">Operations</span>
                     <h3 class="project-title">Marketing Operations System</h3>
                     <p class="project-description">
-                        Transformed fragmented campaign execution into standardized system. Designed review templates, execution playbooks, and performance frameworks. Reduced creative review cycles from 5 days to 3. Eliminated missed deadlines. Doubled quarterly campaign capacity without adding headcount.
+                        Transformed fragmented campaign execution into standardized system. Reduced creative review cycles from 5 days to 3. Doubled quarterly campaign capacity without adding headcount.
                     </p>
                     <div class="project-metrics">
                         <div class="metric">
@@ -1358,7 +1780,7 @@
                 </div>
             </div>
 
-            <!-- Project 3: Agency Relationship Reset -->
+            <!-- Project 3 -->
             <div class="project-card">
                 <div class="project-visual visual-3">
                     <div class="project-number">03</div>
@@ -1373,7 +1795,7 @@
                     <span class="project-tag">Partnership</span>
                     <h3 class="project-title">Agency Relationship Reset</h3>
                     <p class="project-description">
-                        Diagnosed failing creative agency relationship through retrospective analysis of 15 projects. Implemented structured briefing system, dedicated account team, and monthly partnership reviews. Transformed satisfaction from 4/10 to 8/10. Saved agency partnership on verge of cancellation.
+                        Diagnosed failing creative agency relationship through analysis of 15 projects. Transformed satisfaction from 4/10 to 8/10. Saved agency partnership on verge of cancellation.
                     </p>
                     <div class="project-metrics">
                         <div class="metric">
@@ -1388,7 +1810,7 @@
                 </div>
             </div>
 
-            <!-- Project 4: Sales Asset Library -->
+            <!-- Project 4 -->
             <div class="project-card">
                 <div class="project-visual visual-4">
                     <div class="project-number">04</div>
@@ -1404,7 +1826,7 @@
                     <span class="project-tag">Sales Enablement</span>
                     <h3 class="project-title">Sales Asset Library</h3>
                     <p class="project-description">
-                        Built comprehensive asset system for sales team—20+ materials including one-pagers, comparison sheets, ROI calculators. Coordinated development across product marketing, design, and sales. Interviewed top performers to understand actual needs. Reduced sales cycle time by 15%.
+                        Built comprehensive asset system—20+ materials. Interviewed top performers to understand needs. Reduced sales cycle time by 15%.
                     </p>
                     <div class="project-metrics">
                         <div class="metric">
@@ -1447,108 +1869,350 @@
         </div>
     </section>
 
-    <!-- Timeline Section with Interactive World Map -->
+    <!-- Comprehensive Timeline Section -->
     <section id="timeline" class="timeline-section">
         <div class="section-header">
             <div class="section-number">02 — Journey</div>
-            <h2 class="section-title">Around The<br>World</h2>
+            <h2 class="section-title">My Complete<br>Timeline</h2>
             <p class="section-description" style="color: var(--gray);">
-                From India to France to Canada—each location shaped how I think about systems, creativity, and scale.
+                From education to multi-industry experience—each chapter builds on systematic thinking and operational excellence.
             </p>
         </div>
 
-        <div class="world-map-container">
-            <svg class="world-map-svg" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
-                <g class="map-continents">
-                    <!-- North America -->
-                    <path d="M 100,150 Q 150,100 200,120 T 300,140 Q 350,130 380,160 L 360,200 Q 340,220 320,210 L 280,230 Q 250,240 220,220 L 180,200 Q 140,180 100,150 Z" />
-                    
-                    <!-- South America -->
-                    <path d="M 250,280 Q 270,260 290,270 L 310,320 Q 320,360 310,400 Q 300,440 280,460 L 260,440 Q 250,400 240,360 L 230,320 Q 240,290 250,280 Z" />
-                    
-                    <!-- Europe -->
-                    <path d="M 450,130 Q 480,120 510,125 L 540,140 Q 560,155 550,170 L 530,180 Q 510,175 490,165 L 470,150 Q 450,140 450,130 Z" />
-                    
-                    <!-- Africa -->
-                    <path d="M 480,200 Q 510,190 540,200 L 560,240 Q 570,280 560,320 Q 550,360 530,380 L 500,370 Q 480,340 470,300 L 465,260 Q 470,220 480,200 Z" />
-                    
-                    <!-- Asia -->
-                    <path d="M 600,140 Q 650,130 700,145 L 750,160 Q 800,175 820,200 L 810,240 Q 790,260 760,255 L 720,245 Q 680,230 650,215 L 620,190 Q 600,165 600,140 Z" />
-                    
-                    <!-- Australia -->
-                    <path d="M 750,380 Q 790,370 830,385 L 850,410 Q 860,440 840,460 L 800,455 Q 770,440 750,420 L 745,400 Q 745,390 750,380 Z" />
-                    
-                    <!-- Connection Lines -->
-                    <line class="connection-line" x1="480" y1="150" x2="680" y2="320" />
-                    <line class="connection-line" x1="680" y1="320" x2="180" y2="160" />
-                </g>
-            </svg>
+        <!-- Interactive World Map -->
+        <div class="world-map-wrapper">
+            <h3 class="map-title">🌍 Global Journey Map</h3>
+            <p class="map-subtitle">Click on the glowing markers to explore my journey across continents</p>
             
-            <div class="timeline-points">
-                <!-- Paris, France -->
-                <div class="timeline-point point-paris" onclick="this.classList.toggle('active')">
-                    <div class="timeline-tooltip">
-                        <div class="tooltip-year">2019</div>
-                        <div class="tooltip-location">📍 Paris, France</div>
-                        <div class="tooltip-role">Exchange Program</div>
-                        <div class="tooltip-description">
-                            Cross-functional project management. International collaboration. Cultural adaptability.
+            <div class="world-map-container">
+                <svg class="world-map-svg" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+                    <!-- World Map Continents -->
+                    <g class="map-continents">
+                        <!-- North America -->
+                        <path d="M 80,120 Q 120,80 160,100 L 200,110 Q 240,105 270,130 L 290,160 Q 300,180 290,200 L 270,220 Q 250,230 230,220 L 200,210 Q 170,200 150,180 L 120,160 Q 90,140 80,120 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                        
+                        <!-- South America -->
+                        <path d="M 220,250 Q 240,240 255,250 L 270,280 Q 280,320 270,360 Q 260,390 245,405 L 230,395 Q 220,360 215,320 L 210,280 Q 215,260 220,250 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                        
+                        <!-- Europe -->
+                        <path d="M 480,110 Q 510,100 540,105 L 570,120 Q 590,135 580,150 L 560,160 Q 540,155 520,145 L 500,130 Q 480,120 480,110 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                        
+                        <!-- Africa -->
+                        <path d="M 500,180 Q 530,170 560,180 L 580,220 Q 590,260 580,300 Q 570,340 550,360 L 520,350 Q 500,320 490,280 L 485,240 Q 490,200 500,180 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                        
+                        <!-- Asia -->
+                        <path d="M 620,120 Q 670,110 720,125 L 770,140 Q 820,155 840,180 L 830,220 Q 810,240 780,235 L 740,225 Q 700,210 670,195 L 640,170 Q 620,145 620,120 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                        
+                        <!-- Australia -->
+                        <path d="M 780,360 Q 820,350 860,365 L 880,390 Q 890,420 870,440 L 830,435 Q 800,420 780,400 L 775,380 Q 775,370 780,360 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                        
+                        <!-- Connection Lines between locations -->
+                        <line class="connection-line" x1="750" y1="250" x2="500" y2="130" stroke="rgba(255,215,0,0.3)" stroke-width="2" stroke-dasharray="5,5"/>
+                        <line class="connection-line" x1="500" y1="130" x2="710" y2="250" stroke="rgba(255,215,0,0.3)" stroke-width="2" stroke-dasharray="5,5"/>
+                        <line class="connection-line" x1="710" y1="250" x2="180" y2="140" stroke="rgba(255,215,0,0.3)" stroke-width="2" stroke-dasharray="5,5"/>
+                    </g>
+                </svg>
+                
+                <!-- Interactive Location Markers -->
+                <div class="map-markers">
+                    <!-- India - Multiple locations -->
+                    <div class="location-marker marker-india-general" data-location="india-edu" style="top: 38%; left: 75%;">
+                        <div class="marker-pulse"></div>
+                        <div class="marker-dot"></div>
+                        <div class="location-popup">
+                            <div class="popup-header">
+                                <span class="popup-flag">🇮🇳</span>
+                                <span class="popup-title">India</span>
+                            </div>
+                            <div class="popup-date">2017 - 2021</div>
+                            <div class="popup-role">Bachelor of Engineering - Aerospace</div>
+                            <div class="popup-company">University Education</div>
+                            <div class="popup-description">
+                                Built foundation in engineering principles and systematic problem-solving. Started journey in operations and systems thinking.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chennai, India - Vugha -->
+                    <div class="location-marker marker-chennai-1" data-location="chennai-vugha" style="top: 42%; left: 73%;">
+                        <div class="marker-pulse"></div>
+                        <div class="marker-dot"></div>
+                        <div class="location-popup">
+                            <div class="popup-header">
+                                <span class="popup-flag">🇮🇳</span>
+                                <span class="popup-title">Chennai, India</span>
+                            </div>
+                            <div class="popup-date">Sep - Dec 2020</div>
+                            <div class="popup-role">Business Development Manager</div>
+                            <div class="popup-company">Vugha Technologies (Internship)</div>
+                            <div class="popup-highlights">
+                                <div>✓ Identified 50+ potential clients</div>
+                                <div>✓ Increased engagement by 11%</div>
+                                <div>✓ Expanded client base by 15%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chennai, India - Garuda -->
+                    <div class="location-marker marker-chennai-2" data-location="chennai-garuda" style="top: 41%; left: 71%;">
+                        <div class="marker-pulse"></div>
+                        <div class="marker-dot"></div>
+                        <div class="location-popup">
+                            <div class="popup-header">
+                                <span class="popup-flag">🇮🇳</span>
+                                <span class="popup-title">Chennai, India</span>
+                            </div>
+                            <div class="popup-date">Jan - Dec 2021</div>
+                            <div class="popup-role">Process Engineer</div>
+                            <div class="popup-company">Garuda Aerospace</div>
+                            <div class="popup-highlights">
+                                <div>✓ Reduced defects by 2.3%</div>
+                                <div>✓ Improved cycle time by 7%</div>
+                                <div>✓ Enhanced efficiency by 5%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Paris, France -->
+                    <div class="location-marker marker-paris" data-location="paris" style="top: 26%; left: 50%;">
+                        <div class="marker-pulse"></div>
+                        <div class="marker-dot"></div>
+                        <div class="location-popup">
+                            <div class="popup-header">
+                                <span class="popup-flag">🇫🇷</span>
+                                <span class="popup-title">Paris, France</span>
+                            </div>
+                            <div class="popup-date">2019</div>
+                            <div class="popup-role">Exchange Program</div>
+                            <div class="popup-company">Aerospace Engineering</div>
+                            <div class="popup-description">
+                                Managed cross-functional projects in international environment. Developed cultural adaptability and global collaboration skills.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bangalore, India -->
+                    <div class="location-marker marker-bangalore" data-location="bangalore" style="top: 43%; left: 71.5%;">
+                        <div class="marker-pulse"></div>
+                        <div class="marker-dot"></div>
+                        <div class="location-popup">
+                            <div class="popup-header">
+                                <span class="popup-flag">🇮🇳</span>
+                                <span class="popup-title">Bangalore, India</span>
+                            </div>
+                            <div class="popup-date">Oct 2021 - Nov 2022</div>
+                            <div class="popup-role">Marketing Coordinator</div>
+                            <div class="popup-company">ADVANIX IT Solutions</div>
+                            <div class="popup-highlights">
+                                <div>✓ 12+ campaigns quarterly</div>
+                                <div>✓ 40% faster review cycles</div>
+                                <div>✓ 20% efficiency improvement</div>
+                                <div>✓ Zero missed deadlines</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saskatoon, Canada - No Frills -->
+                    <div class="location-marker marker-saskatoon-1" data-location="saskatoon-nofrills" style="top: 24%; left: 18%;">
+                        <div class="marker-pulse"></div>
+                        <div class="marker-dot"></div>
+                        <div class="location-popup">
+                            <div class="popup-header">
+                                <span class="popup-flag">🇨🇦</span>
+                                <span class="popup-title">Saskatoon, Canada</span>
+                            </div>
+                            <div class="popup-date">Jan 2023 - Feb 2025</div>
+                            <div class="popup-role">Produce Supervisor</div>
+                            <div class="popup-company">No Frills (Loblaw)</div>
+                            <div class="popup-highlights">
+                                <div>✓ Led team of 10+ employees</div>
+                                <div>✓ Reduced waste by 10%</div>
+                                <div>✓ Six Sigma implementation</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saskatoon, Canada - Current -->
+                    <div class="location-marker marker-saskatoon-2 marker-current" data-location="saskatoon-current" style="top: 23%; left: 18%;">
+                        <div class="marker-pulse pulse-current"></div>
+                        <div class="marker-dot dot-current"></div>
+                        <div class="location-popup">
+                            <div class="popup-header">
+                                <span class="popup-flag">🇨🇦</span>
+                                <span class="popup-title">Saskatoon, Canada</span>
+                                <span class="popup-badge">CURRENT</span>
+                            </div>
+                            <div class="popup-date">Feb 2025 - Present</div>
+                            <div class="popup-role">Inventory & SAP Operations Manager</div>
+                            <div class="popup-company">Loblaw Companies Limited</div>
+                            <div class="popup-highlights">
+                                <div>✓ Reduced KPI from 75% to 13%</div>
+                                <div>✓ Optimized picklists 60%</div>
+                                <div>✓ SAP system management</div>
+                                <div>✓ Master's degree in progress</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bangalore, India -->
-                <div class="timeline-point point-bangalore" onclick="this.classList.toggle('active')">
-                    <div class="timeline-tooltip">
-                        <div class="tooltip-year">2021-2022</div>
-                        <div class="tooltip-location">📍 Bangalore, India</div>
-                        <div class="tooltip-role">Marketing Coordinator</div>
-                        <div class="tooltip-description">
-                            ADVANIX IT Solutions. Built marketing operations from chaos. 40% efficiency gain.
-                        </div>
+                <!-- Map Legend -->
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #FFD700;"></div>
+                        <span>Education</span>
                     </div>
-                </div>
-
-                <!-- Saskatoon, Canada -->
-                <div class="timeline-point point-saskatoon" onclick="this.classList.toggle('active')">
-                    <div class="timeline-tooltip">
-                        <div class="tooltip-year">2023-Present</div>
-                        <div class="tooltip-location">📍 Saskatoon, Canada</div>
-                        <div class="tooltip-role">Graduate Studies & Operations</div>
-                        <div class="tooltip-description">
-                            Master's program. Loblaw retail operations. Applying systematic thinking to new domains.
-                        </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #667eea;"></div>
+                        <span>Early Career</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #f093fb;"></div>
+                        <span>Marketing</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #43e97b;"></div>
+                        <span>Operations</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot dot-current"></div>
+                        <span>Current Role</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="timeline-list">
-            <div class="timeline-item">
-                <div class="timeline-year">2019</div>
-                <div class="timeline-location">📍 Paris, France</div>
-                <div class="timeline-role">Exchange Program</div>
-                <div class="timeline-description">
-                    Managed cross-functional projects during aerospace engineering exchange program. Developed international collaboration skills and cultural adaptability that would later prove essential in marketing coordination.
-                </div>
-            </div>
+        <div class="timeline-container">
+            <div class="timeline-track">
+                <div class="timeline-line"></div>
 
-            <div class="timeline-item">
-                <div class="timeline-year">2021-2022</div>
-                <div class="timeline-location">📍 Bangalore, India</div>
-                <div class="timeline-role">Marketing Coordinator</div>
-                <div class="timeline-description">
-                    Joined ADVANIX IT Solutions right after completing Aerospace Engineering degree. Transformed chaotic marketing operations into systematic infrastructure. Built playbooks, standardized processes, coordinated 12+ campaigns per quarter.
+                <!-- Education: Bachelor's Degree -->
+                <div class="timeline-entry">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2017 - 2021</div>
+                        <div class="timeline-location">📍 India</div>
+                        <div class="timeline-role">Bachelor of Engineering - Aerospace</div>
+                        <div class="timeline-company">University</div>
+                        <div class="timeline-description">
+                            Built foundation in engineering principles and systematic problem-solving. Completed exchange program in Paris, developing cross-cultural collaboration skills.
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item">
-                <div class="timeline-year">2023-Present</div>
-                <div class="timeline-location">📍 Saskatoon, Canada</div>
-                <div class="timeline-role">Graduate Studies & Operations</div>
-                <div class="timeline-description">
-                    Pursuing Master's degree in Canada. Applying operational excellence principles to retail operations at Loblaw. Proving that systematic thinking transfers across industries and domains.
+                <!-- Exchange Program -->
+                <div class="timeline-entry">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2019</div>
+                        <div class="timeline-location">📍 Paris, France</div>
+                        <div class="timeline-role">Exchange Program</div>
+                        <div class="timeline-company">Aerospace Engineering</div>
+                        <div class="timeline-description">
+                            Managed cross-functional projects in international environment. Developed cultural adaptability and communication skills essential for global business operations.
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Vugha Technologies -->
+                <div class="timeline-entry">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">Sep 2020 - Dec 2020</div>
+                        <div class="timeline-location">📍 Chennai, India</div>
+                        <div class="timeline-role">Business Development Manager (Intern)</div>
+                        <div class="timeline-company">Vugha Technologies</div>
+                        <div class="timeline-highlights">
+                            <div class="timeline-highlight">Identified 50+ potential clients through market trend analysis</div>
+                            <div class="timeline-highlight">Increased product engagement by 11% using data-driven strategies</div>
+                            <div class="timeline-highlight">Expanded client base by 15% leveraging Six Sigma methodologies</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Garuda Aerospace -->
+                <div class="timeline-entry">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">Jan 2021 - Dec 2021</div>
+                        <div class="timeline-location">📍 Chennai, India</div>
+                        <div class="timeline-role">Process Engineer</div>
+                        <div class="timeline-company">Garuda Aerospace Private Limited</div>
+                        <div class="timeline-highlights">
+                            <div class="timeline-highlight">Reduced defect rates by 2.3% through APQP implementation</div>
+                            <div class="timeline-highlight">Improved manufacturing cycle times by 7% with robotic welding</div>
+                            <div class="timeline-highlight">Increased process efficiency by 5% via Lean Manufacturing</div>
+                            <div class="timeline-highlight">Enhanced operational reliability by 4.6% through predictive maintenance</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADVANIX IT Solutions -->
+                <div class="timeline-entry">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">Oct 2021 - Nov 2022</div>
+                        <div class="timeline-location">📍 Bangalore, India</div>
+                        <div class="timeline-role">Marketing Coordinator</div>
+                        <div class="timeline-company">ADVANIX IT Solutions</div>
+                        <div class="timeline-highlights">
+                            <div class="timeline-highlight">Executed 12+ marketing campaigns quarterly across multiple channels</div>
+                            <div class="timeline-highlight">Reduced creative review cycles from 5 days to 3 days (40% improvement)</div>
+                            <div class="timeline-highlight">Improved campaign efficiency by 20% through post-mortem analysis</div>
+                            <div class="timeline-highlight">Developed campaign execution playbook adopted across team</div>
+                            <div class="timeline-highlight">Coordinated largest product launch with zero missed deadlines</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No Frills -->
+                <div class="timeline-entry">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">Jan 2023 - Feb 2025</div>
+                        <div class="timeline-location">📍 Saskatoon, Canada</div>
+                        <div class="timeline-role">Produce Supervisor</div>
+                        <div class="timeline-company">No Frills (Loblaw Companies)</div>
+                        <div class="timeline-highlights">
+                            <div class="timeline-highlight">Supervised and mentored team of 10+ employees</div>
+                            <div class="timeline-highlight">Reduced waste by 10% through JIT stocking and SAP ERP forecasting</div>
+                            <div class="timeline-highlight">Implemented Six Sigma continuous improvement projects</div>
+                            <div class="timeline-highlight">Ensured compliance with OSHA safety standards and food safety regulations</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current: Loblaw -->
+                <div class="timeline-entry">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">Feb 2025 - Present</div>
+                        <div class="timeline-location">📍 Saskatoon, Canada</div>
+                        <div class="timeline-role">Inventory & SAP Operations Manager</div>
+                        <div class="timeline-company">Loblaw Companies Limited (MacNeil's Your Independent Grocer)</div>
+                        <div class="timeline-highlights">
+                            <div class="timeline-highlight">Reduced "hole match" KPI from 47-75% to 13-17% (surpassing 24% standard)</div>
+                            <div class="timeline-highlight">Lowered daily picklist volumes from 25-28 pages to 10-15 pages</div>
+                            <div class="timeline-highlight">Applied data-driven cycle counting for improved inventory confidence</div>
+                            <div class="timeline-highlight">Managed SAP receiving, procurement, and replenishment functions</div>
+                            <div class="timeline-highlight">Led structured floor walks integrated with system audits</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Master's Degree -->
+                <div class="timeline-entry">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2023 - Present</div>
+                        <div class="timeline-location">📍 Saskatoon, Canada</div>
+                        <div class="timeline-role">Master's Degree Program</div>
+                        <div class="timeline-company">Graduate Studies</div>
+                        <div class="timeline-description">
+                            Pursuing advanced education while applying operational excellence principles across retail operations. Proving systematic thinking transfers across industries and domains.
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -1580,52 +2244,78 @@
             }, 2000);
         });
 
-        // Custom Cursor
-        const cursor = document.querySelector('.cursor');
-        const cursorFollower = document.querySelector('.cursor-follower');
-
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        let followerX = 0, followerY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.9;
-            cursorY += (mouseY - cursorY) * 0.9;
-            followerX += (mouseX - followerX) * 0.1;
-            followerY += (mouseY - followerY) * 0.1;
-
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
-            cursorFollower.style.left = followerX + 'px';
-            cursorFollower.style.top = followerY + 'px';
-
-            requestAnimationFrame(animateCursor);
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const menuToggle = document.querySelector('.menu-toggle');
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active');
         }
-        animateCursor();
 
-        // Cursor hover effect
-        const hoverElements = document.querySelectorAll('a, button, .project-card, .timeline-point, .stat-item');
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.width = '40px';
-                cursor.style.height = '40px';
-                cursor.style.background = 'rgba(255,215,0,0.5)';
-                cursorFollower.style.width = '60px';
-                cursorFollower.style.height = '60px';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.width = '20px';
-                cursor.style.height = '20px';
-                cursor.style.background = 'none';
-                cursorFollower.style.width = '40px';
-                cursorFollower.style.height = '40px';
-            });
+        function closeMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const menuToggle = document.querySelector('.menu-toggle');
+            navLinks.classList.remove('active');
+            menuToggle.classList.remove('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const navLinks = document.getElementById('navLinks');
+            const menuToggle = document.querySelector('.menu-toggle');
+            if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+                closeMenu();
+            }
         });
+
+        // Custom Cursor (Desktop Only)
+        if (window.innerWidth >= 1024) {
+            const cursor = document.querySelector('.cursor');
+            const cursorFollower = document.querySelector('.cursor-follower');
+
+            let mouseX = 0, mouseY = 0;
+            let cursorX = 0, cursorY = 0;
+            let followerX = 0, followerY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            function animateCursor() {
+                cursorX += (mouseX - cursorX) * 0.9;
+                cursorY += (mouseY - cursorY) * 0.9;
+                followerX += (mouseX - followerX) * 0.1;
+                followerY += (mouseY - followerY) * 0.1;
+
+                cursor.style.left = cursorX + 'px';
+                cursor.style.top = cursorY + 'px';
+                cursorFollower.style.left = followerX + 'px';
+                cursorFollower.style.top = followerY + 'px';
+
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+
+            // Cursor hover effect
+            const hoverElements = document.querySelectorAll('a, button, .project-card, .timeline-content, .stat-item, .fab');
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursor.style.width = '40px';
+                    cursor.style.height = '40px';
+                    cursor.style.background = 'rgba(255,215,0,0.5)';
+                    cursorFollower.style.width = '60px';
+                    cursorFollower.style.height = '60px';
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursor.style.width = '20px';
+                    cursor.style.height = '20px';
+                    cursor.style.background = 'none';
+                    cursorFollower.style.width = '40px';
+                    cursorFollower.style.height = '40px';
+                });
+            });
+        }
 
         // Navigation scroll effect
         const nav = document.getElementById('nav');
@@ -1643,6 +2333,16 @@
             lastScroll = currentScroll;
         });
 
+        // Smooth scroll helper
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            closeFabMenu();
+            closeMenu();
+        }
+
         // Smooth scroll for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1652,6 +2352,26 @@
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
+        });
+
+        // FAB Menu Toggle
+        function toggleFabMenu() {
+            const fabMenu = document.getElementById('fabMenu');
+            fabMenu.classList.toggle('active');
+        }
+
+        function closeFabMenu() {
+            const fabMenu = document.getElementById('fabMenu');
+            fabMenu.classList.remove('active');
+        }
+
+        // Close FAB menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const fab = document.querySelector('.fab');
+            const fabMenu = document.getElementById('fabMenu');
+            if (!fab.contains(e.target) && !fabMenu.contains(e.target)) {
+                closeFabMenu();
+            }
         });
 
         // Scroll reveal animations
@@ -1668,18 +2388,20 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.project-card').forEach(el => observer.observe(el));
+        document.querySelectorAll('.project-card, .timeline-entry').forEach(el => observer.observe(el));
 
-        // Parallax effect for hero
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            if (hero && scrolled < window.innerHeight) {
-                const heroContent = hero.querySelector('.hero-content');
-                heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
-                heroContent.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
-            }
-        });
+        // Parallax effect for hero (Desktop Only)
+        if (window.innerWidth >= 768) {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const hero = document.querySelector('.hero');
+                if (hero && scrolled < window.innerHeight) {
+                    const heroContent = hero.querySelector('.hero-content');
+                    heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+                    heroContent.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
+                }
+            });
+        }
 
         // Stats counter animation
         const statNumbers = document.querySelectorAll('.stat-number');
@@ -1692,16 +2414,18 @@
                     const isPlus = finalValue.includes('+');
                     const numericValue = parseInt(finalValue.replace(/[^\d]/g, ''));
                     
-                    let current = 0;
-                    const increment = numericValue / 60;
-                    const timer = setInterval(() => {
-                        current += increment;
-                        if (current >= numericValue) {
-                            current = numericValue;
-                            clearInterval(timer);
-                        }
-                        target.textContent = Math.floor(current) + (isPercentage ? '%' : '') + (isPlus ? '+' : '');
-                    }, 25);
+                    if (!isNaN(numericValue)) {
+                        let current = 0;
+                        const increment = numericValue / 60;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= numericValue) {
+                                current = numericValue;
+                                clearInterval(timer);
+                            }
+                            target.textContent = Math.floor(current) + (isPercentage ? '%' : '') + (isPlus ? '+' : '');
+                        }, 25);
+                    }
                     
                     statsObserver.unobserve(target);
                 }
@@ -1710,196 +2434,290 @@
 
         statNumbers.forEach(stat => statsObserver.observe(stat));
 
-        // Timeline point interactions
-        const timelinePoints = document.querySelectorAll('.timeline-point');
-        timelinePoints.forEach(point => {
-            point.addEventListener('click', function(e) {
-                e.stopPropagation();
-                timelinePoints.forEach(p => p.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Close timeline tooltips when clicking outside
-        document.addEventListener('click', () => {
-            timelinePoints.forEach(p => p.classList.remove('active'));
-        });
-
-        // Project visual 3D tilt effect
-        const projectCards = document.querySelectorAll('.project-card');
-        projectCards.forEach(card => {
-            const visual = card.querySelector('.project-visual');
-            
-            card.addEventListener('mousemove', (e) => {
-                const rect = visual.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 15;
-                const rotateY = (centerX - x) / 15;
-                
-                visual.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                visual.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-            });
-        });
-
-        // Add keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowDown') {
-                window.scrollBy({ top: 100, behavior: 'smooth' });
-            } else if (e.key === 'ArrowUp') {
-                window.scrollBy({ top: -100, behavior: 'smooth' });
-            } else if (e.key === 'Home') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else if (e.key === 'End') {
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            }
-        });
-
-        // Animate timeline items on scroll
-        const timelineItems = document.querySelectorAll('.timeline-item');
-        const timelineObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
+        // Timeline entry hover effect (Desktop only)
+        if (window.innerWidth >= 1024) {
+            const timelineEntries = document.querySelectorAll('.timeline-content');
+            timelineEntries.forEach(entry => {
+                entry.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.02)';
                     setTimeout(() => {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateX(0)';
-                    }, index * 200);
-                }
+                        this.style.transform = '';
+                    }, 300);
+                });
             });
-        }, { threshold: 0.2 });
+        }
 
-        timelineItems.forEach(item => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateX(-50px)';
-            item.style.transition = 'all 0.6s cubic-bezier(0.19, 1, 0.22, 1)';
-            timelineObserver.observe(item);
-        });
-
-        // Add scroll progress indicator
-        const scrollProgress = document.createElement('div');
-        scrollProgress.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
-            z-index: 10001;
-            transition: width 0.1s ease;
-        `;
-        document.body.appendChild(scrollProgress);
-
+        // Scroll Progress Bar
+        const scrollProgress = document.querySelector('.scroll-progress');
         window.addEventListener('scroll', () => {
             const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (window.pageYOffset / windowHeight) * 100;
             scrollProgress.style.width = scrolled + '%';
         });
 
-        // Easter egg: Konami code
-        let konamiCode = [];
-        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-        
-        document.addEventListener('keydown', (e) => {
-            konamiCode.push(e.key);
-            konamiCode = konamiCode.slice(-10);
-            
-            if (konamiCode.join(',') === konamiSequence.join(',')) {
-                document.body.style.animation = 'rainbow 2s linear infinite';
-                setTimeout(() => {
-                    document.body.style.animation = '';
-                }, 3000);
-            }
-        });
-
-        // Add CSS for rainbow animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes rainbow {
-                0% { filter: hue-rotate(0deg); }
-                100% { filter: hue-rotate(360deg); }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Interactive world map hover effects
-        const mapPaths = document.querySelectorAll('.map-continents path');
-        mapPaths.forEach(path => {
-            path.addEventListener('mouseenter', function() {
-                this.style.stroke = '#FFD700';
-                this.style.strokeWidth = '3';
-                this.style.filter = 'drop-shadow(0 0 10px #FFD700)';
+        // Add keyboard navigation (Desktop only)
+        if (window.innerWidth >= 768) {
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowDown') {
+                    window.scrollBy({ top: 100, behavior: 'smooth' });
+                } else if (e.key === 'ArrowUp') {
+                    window.scrollBy({ top: -100, behavior: 'smooth' });
+                } else if (e.key === 'Home') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else if (e.key === 'End') {
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                }
             });
-            
-            path.addEventListener('mouseleave', function() {
-                this.style.stroke = 'rgba(255,255,255,0.6)';
-                this.style.strokeWidth = '1.5';
-                this.style.filter = 'none';
-            });
-        });
-
-        // Add particle effect on hero section
-        function createParticles() {
-            const hero = document.querySelector('.hero');
-            const particleCount = 50;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.style.cssText = `
-                    position: absolute;
-                    width: 3px;
-                    height: 3px;
-                    background: rgba(255,255,255,0.5);
-                    border-radius: 50%;
-                    pointer-events: none;
-                    animation: float ${5 + Math.random() * 10}s linear infinite;
-                    left: ${Math.random() * 100}%;
-                    top: ${Math.random() * 100}%;
-                    animation-delay: ${Math.random() * 5}s;
-                `;
-                hero.appendChild(particle);
-            }
         }
 
-        const particleStyle = document.createElement('style');
-        particleStyle.textContent = `
-            @keyframes float {
-                0% { transform: translateY(0) translateX(0); opacity: 0; }
-                10% { opacity: 1; }
-                90% { opacity: 1; }
-                100% { transform: translateY(-100vh) translateX(${Math.random() * 100 - 50}px); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(particleStyle);
-        createParticles();
-
-        // Smooth scroll snap for sections on mobile
-        if (window.innerWidth <= 768) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.style.scrollSnapAlign = 'start';
+        // Project visual 3D tilt effect (Desktop only)
+        if (window.innerWidth >= 1024) {
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach(card => {
+                const visual = card.querySelector('.project-visual');
+                
+                card.addEventListener('mousemove', (e) => {
+                    const rect = visual.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 15;
+                    const rotateY = (centerX - x) / 15;
+                    
+                    visual.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    visual.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+                });
             });
-            document.documentElement.style.scrollSnapType = 'y proximity';
         }
 
-        // Add hover sound effect (optional - commented out by default)
-        /*
-        const hoverSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuEze');
-        
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                hoverSound.currentTime = 0;
-                hoverSound.play().catch(() => {});
+        // Touch feedback for mobile
+        if ('ontouchstart' in window) {
+            const touchElements = document.querySelectorAll('.project-visual, .stat-item, .timeline-content');
+            touchElements.forEach(el => {
+                el.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                });
+                el.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                });
             });
-        });
-        */
+        }
 
+        // Prevent mobile bounce scroll
+        let lastTouchY = 0;
+        document.addEventListener('touchmove', (e) => {
+            const touchY = e.touches[0].clientY;
+            const touchYDelta = touchY - lastTouchY;
+            lastTouchY = touchY;
+
+            if (document.body.scrollTop === 0 && touchYDelta > 0) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Console Easter Egg
         console.log('%c👋 Welcome to my portfolio!', 'font-size: 20px; color: #FFD700; font-weight: bold;');
         console.log('%cBuilt with passion, precision, and a lot of coffee ☕', 'font-size: 14px; color: #9C9C9C;');
         console.log('%cInterested in working together? Let\'s chat!', 'font-size: 14px; color: #000;');
         console.log('%ciaayushtripathi@gmail.com', 'font-size: 14px; color: #FFD700; font-weight: bold;');
+
+        // Performance optimization: Debounce scroll events
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Lazy load animations on mobile for better performance
+        if (window.innerWidth <= 768) {
+            const animations = document.querySelectorAll('.chart-bar, .gear, .network-node, .document');
+            animations.forEach(anim => {
+                anim.style.animationPlayState = 'paused';
+            });
+
+            const animObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const anims = entry.target.querySelectorAll('.chart-bar, .gear, .network-node, .document');
+                        anims.forEach(anim => {
+                            anim.style.animationPlayState = 'running';
+                        });
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            document.querySelectorAll('.project-visual').forEach(visual => {
+                animObserver.observe(visual);
+            });
+        }
+
+        // Add haptic feedback for mobile interactions (if supported)
+        if ('vibrate' in navigator) {
+            const clickableElements = document.querySelectorAll('a, button, .project-card, .stat-item, .fab');
+            clickableElements.forEach(el => {
+                el.addEventListener('touchstart', () => {
+                    navigator.vibrate(10);
+                });
+            });
+        }
+
+        // Responsive font size adjustment
+        function adjustFontSizes() {
+            const width = window.innerWidth;
+            if (width < 375) {
+                document.documentElement.style.fontSize = '14px';
+            } else {
+                document.documentElement.style.fontSize = '16px';
+            }
+        }
+
+        adjustFontSizes();
+        window.addEventListener('resize', debounce(adjustFontSizes, 250));
+
+        // Interactive Map Markers
+        const locationMarkers = document.querySelectorAll('.location-marker');
+        
+        locationMarkers.forEach(marker => {
+            // Desktop: hover to show
+            if (window.innerWidth >= 768) {
+                marker.addEventListener('mouseenter', function() {
+                    // Close all other popups
+                    locationMarkers.forEach(m => m.classList.remove('active'));
+                    // Open this one
+                    this.classList.add('active');
+                });
+
+                marker.addEventListener('mouseleave', function() {
+                    this.classList.remove('active');
+                });
+            } 
+            // Mobile: tap to toggle
+            else {
+                marker.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const isActive = this.classList.contains('active');
+                    
+                    // Close all popups
+                    locationMarkers.forEach(m => m.classList.remove('active'));
+                    
+                    // Toggle this one
+                    if (!isActive) {
+                        this.classList.add('active');
+                    }
+                });
+            }
+        });
+
+        // Close popups when clicking outside (mobile)
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.location-marker')) {
+                locationMarkers.forEach(m => m.classList.remove('active'));
+            }
+        });
+
+        // Map continent hover effects
+        const continents = document.querySelectorAll('.map-continents path');
+        continents.forEach(continent => {
+            continent.addEventListener('mouseenter', function() {
+                this.style.fill = 'rgba(255,215,0,0.15)';
+                this.style.stroke = 'var(--accent)';
+                this.style.strokeWidth = '2';
+            });
+            
+            continent.addEventListener('mouseleave', function() {
+                this.style.fill = 'rgba(255,255,255,0.1)';
+                this.style.stroke = 'rgba(255,255,255,0.4)';
+                this.style.strokeWidth = '1';
+            });
+        });
+
+        // Animate markers on scroll into view
+        const mapContainer = document.querySelector('.world-map-container');
+        const mapObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    locationMarkers.forEach((marker, index) => {
+                        setTimeout(() => {
+                            marker.style.opacity = '0';
+                            marker.style.transform = 'scale(0)';
+                            setTimeout(() => {
+                                marker.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                                marker.style.opacity = '1';
+                                marker.style.transform = 'scale(1)';
+                            }, 50);
+                        }, index * 200);
+                    });
+                    mapObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        if (mapContainer) {
+            mapObserver.observe(mapContainer);
+        }
+
+        // Add touch feedback for map markers on mobile
+        if ('ontouchstart' in window) {
+            locationMarkers.forEach(marker => {
+                marker.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(1.1)';
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate(10);
+                    }
+                });
+                
+                marker.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 100);
+                });
+            });
+        }
+
+        // Intersection Observer for timeline staggered animations
+        const timelineEntries = document.querySelectorAll('.timeline-entry');
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        timelineEntries.forEach(item => {
+            timelineObserver.observe(item);
+        });
+
+        // Screen orientation change handler
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                window.scrollTo(window.scrollX, window.scrollY);
+            }, 100);
+        });
+
+        // Accessibility: Skip to content
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab' && e.shiftKey === false) {
+                const firstFocusable = document.querySelector('a, button');
+                if (document.activeElement === document.body && firstFocusable) {
+                    e.preventDefault();
+                    firstFocusable.focus();
+                }
+            }
+        });
     </script>
 </body>
 </html>
